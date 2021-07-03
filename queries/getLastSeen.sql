@@ -1,0 +1,1 @@
+SELECT last_seen FROM vmd WHERE chat_id=? AND user_id=?
