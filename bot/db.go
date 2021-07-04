@@ -110,11 +110,36 @@ func updateStatistic(chatID int64, userID int) {
 	}
 }
 
-func getStatistic(chatID int64) []Statistic {
+func GetStatisticForChat(chatID int64) []Statistic {
 	db := getDB()
 	defer db.Close()
 	rows, err := db.Query(
-		getQuery("getStatistic"), chatID)
+		getQuery("getStatisticForChat"), chatID)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer rows.Close()
+	var statistics []Statistic
+
+	for rows.Next() {
+		s := Statistic{}
+		err := rows.Scan(&s.Username, &s.DeletedCount)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+		statistics = append(statistics, s)
+	}
+	return statistics
+}
+
+func GetStatistic() []Statistic {
+	db := getDB()
+	defer db.Close()
+	rows, err := db.Query(
+		getQuery("getStatistic"))
 
 	if err != nil {
 		panic(err)

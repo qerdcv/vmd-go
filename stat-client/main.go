@@ -1,27 +1,31 @@
 package stat_client
 
 import (
-	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"time"
+	"vmd-go/bot"
 )
 
-func setupHandler() http.Handler {
-	mux := http.NewServeMux()
 
-	mux.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "GEGE")
-	}))
-	return mux
+type Page struct {
+	Statistics []bot.Statistic
 }
 
+var funcMap = template.FuncMap{
+	"inc": func(i int) int {
+		return i + 1
+	},
+}
+
+
 func Run() {
-	handler := setupHandler()
+	handler := SetupHandlers()
 	server := &http.Server{
-		Addr: ":3002",
-		Handler: handler,
-		ReadTimeout: 60 * time.Second,
+		Addr:         ":3001",
+		Handler:      handler,
+		ReadTimeout:  60 * time.Second,
 		WriteTimeout: 60 * time.Second,
 	}
 	log.Fatal(server.ListenAndServe())

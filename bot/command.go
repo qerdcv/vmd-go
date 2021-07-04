@@ -13,7 +13,7 @@ type Command struct {
 
 func (c *Command) Stat() {
 	var resp string
-	statistics := getStatistic(c.Update.Message.Chat.ID)
+	statistics := GetStatisticForChat(c.Update.Message.Chat.ID)
 	if len(statistics) == 0 {
 		msg := tgbotapi.NewMessage(c.Update.Message.Chat.ID, "There is no statistic yet")
 		_, err := c.Bot.Send(msg)
@@ -23,6 +23,7 @@ func (c *Command) Stat() {
 		return
 	}
 
+	resp += fmt.Sprintf("https://stat.qerdcv.com?chat_id=%d\n", c.Update.Message.Chat.ID)
 	for idx, statistic := range statistics {
 		resp += fmt.Sprintf(
 			"%d. %s настрал %d ",
