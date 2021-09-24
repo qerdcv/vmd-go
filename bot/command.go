@@ -30,12 +30,7 @@ func (c *Command) Stat() {
 			idx + 1,
 			statistic.Username,
 			statistic.DeletedCount)
-		if statistic.DeletedCount < 5  && statistic.DeletedCount > 1 {
-			resp += "раза"
-		} else {
-			resp += "раз"
-		}
-		resp += "\n"
+		resp += "раз(а)\n"
 	}
 
 	msg := tgbotapi.NewMessage(c.Update.Message.Chat.ID, resp)

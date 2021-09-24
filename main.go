@@ -9,7 +9,6 @@ import (
 
 func main() {
 	rand.Seed(time.Now().Unix())
-	bot.InitDB()
 	go bot.RunBot()
 	client.Run()
 }
